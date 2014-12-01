@@ -47,7 +47,7 @@ OPERATOR_GENES = {
 
 
 GENE_SIZE = 4
-CHROMOSOME_SIZE = 25
+CHROMOSOME_SIZE = 20
 POPULATION_SIZE = 500
 CROSSOVER_RATE = 0.7
 MUTATION_RATE = 0.7
@@ -88,7 +88,7 @@ def decode_chromosome(chromosome, accumulator):
 
 
 def fitness(target_value, chromosome_value):
-    return 1 / (target_value - chromosome_value)
+    return 1 / abs(target_value - chromosome_value)
 
 
 def weighted_random_selection(items, weights):
@@ -128,7 +128,7 @@ def select_two_crossover_and_mutate(population, fitnesses):
 
 def decode_to_str(chromosome):
     def to_str(acc, operator, number):
-        return str(acc) + operator + str(number)
+        return '%s %s %s' % (str(acc), operator, str(number))
     return decode_chromosome(chromosome, to_str)
 
 
@@ -153,6 +153,7 @@ def find_arithmetic_expression(target_value):
     generation = 0
     while generation < MAX_GENERATION:
         generation += 1
+        print('Generation %d...' % generation)
         fitnesses = []
         for chromosome in population:
             chromosome_value = decode_to_value(chromosome)
